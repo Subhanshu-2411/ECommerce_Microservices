@@ -9,12 +9,40 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @RestController
 @RequestMapping("/product")
 @RequiredArgsConstructor
 public class ProductController {
 
     private final ProductService productService;
+
+    @GetMapping("/get")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<List<ProductResponse>> getProducts() {
+        List<Product> products = productService.getProducts();
+        return new ResponseEntity<>(products.stream().map(product -> ProductResponse.builder()
+                .id(product.getId())
+                .name(product.getName())
+                .description(product.getDescription())
+                .price(product.getPrice())
+                .build()).toList(), HttpStatus.OK);
+    }
+
+    @GetMapping("/get/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<ProductResponse> getProduct(@PathVariable("id") String id) {
+        Product product = productService.getProduct(id);
+        return new ResponseEntity<>(ProductResponse.builder()
+                .id(product.getId())
+                .name(product.getName())
+                .description(product.getDescription())
+                .price(product.getPrice())
+                .build(), HttpStatus.OK);
+    }
+
 
     @PostMapping("/save")
     @ResponseStatus(HttpStatus.CREATED)
