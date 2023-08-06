@@ -1,6 +1,7 @@
 package com.example.productservice.controller;
 
 import com.example.productservice.dto.ProductRequest;
+import com.example.productservice.dto.ProductResponse;
 import com.example.productservice.model.Product;
 import com.example.productservice.service.ProductService;
 import lombok.RequiredArgsConstructor;
@@ -17,8 +18,16 @@ public class ProductController {
 
     @PostMapping("/save")
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<Product> saveProduct(@RequestBody ProductRequest productRequest) {
-        return new ResponseEntity<>(productService.saveProduct(productRequest), HttpStatus.CREATED);
+    public ResponseEntity<ProductResponse> saveProduct(@RequestBody ProductRequest productRequest) {
+        Product product = productService.saveProduct(productRequest);
+        ProductResponse productResponse = ProductResponse.builder()
+                .id(product.getId())
+                .name(product.getName())
+                .description(product.getDescription())
+                .price(product.getPrice())
+                .build();
+
+        return new ResponseEntity<>(productResponse, HttpStatus.CREATED);
     }
 
 }
