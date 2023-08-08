@@ -22,40 +22,20 @@ public class ProductController {
     @GetMapping("/get")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<List<ProductResponse>> getProducts() {
-        List<Product> products = productService.getProducts();
-        return new ResponseEntity<>(products.stream().map(product -> ProductResponse.builder()
-                .id(product.getId())
-                .name(product.getName())
-                .description(product.getDescription())
-                .price(product.getPrice())
-                .build()).toList(), HttpStatus.OK);
+        return new ResponseEntity<>(productService.getProducts(), HttpStatus.OK);
     }
 
     @GetMapping("/get/{id}")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<ProductResponse> getProduct(@PathVariable("id") String id) {
-        Product product = productService.getProduct(id);
-        return new ResponseEntity<>(ProductResponse.builder()
-                .id(product.getId())
-                .name(product.getName())
-                .description(product.getDescription())
-                .price(product.getPrice())
-                .build(), HttpStatus.OK);
+        return new ResponseEntity<>(productService.getProduct(id), HttpStatus.OK);
     }
 
 
     @PostMapping("/save")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<ProductResponse> saveProduct(@RequestBody ProductRequest productRequest) {
-        Product product = productService.saveProduct(productRequest);
-        ProductResponse productResponse = ProductResponse.builder()
-                .id(product.getId())
-                .name(product.getName())
-                .description(product.getDescription())
-                .price(product.getPrice())
-                .build();
-
-        return new ResponseEntity<>(productResponse, HttpStatus.CREATED);
+        return new ResponseEntity<>(productService.saveProduct(productRequest), HttpStatus.CREATED);
     }
 
 }

@@ -1,6 +1,7 @@
 package com.example.productservice.service;
 
 import com.example.productservice.dto.ProductRequest;
+import com.example.productservice.dto.ProductResponse;
 import com.example.productservice.model.Product;
 import com.example.productservice.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,25 +18,44 @@ public class ProductServiceImplementation implements ProductService {
     private final ProductRepository productRepository;
 
     @Override
-    public Product saveProduct(ProductRequest productRequest) {
-        Product product = Product.builder()
+    public ProductResponse saveProduct(ProductRequest productRequest) {
+        Product product = productRepository.save(Product.builder()
                 .name(productRequest.getName())
                 .description(productRequest.getDescription())
                 .price(productRequest.getPrice())
-                .build();
+                .build());
         log.info("Product {} is saved", product.getId());
-        return productRepository.save(product);
+        return ProductResponse.builder()
+                .id(product.getId())
+                .name(product.getName())
+                .description(product.getDescription())
+                .price(product.getPrice()).build();
 
     }
 
     @Override
-    public List<Product> getProducts() {
-        return productRepository.findAll();
+    public List<ProductResponse> getProducts() {
+        return productRepository.findAll().stream().map(product -> ProductResponse
+                .builder()
+                .id(product.getId())
+                .name(product.getName())
+                .description(product.getDescription())
+                .price(product.getPrice())
+                .build()
+
+        ).toList();
     }
 
     @Override
-    public Product getProduct(String id) {
-        return productRepository.findById(id).orElse(null);
+    public ProductResponse getProduct(String id) {
+        return productRepository.findById(id).map(product -> ProductResponse
+                .builder()
+                .id(product.getId())
+                .name(product.getName())
+                .description(product.getDescription())
+                .price(product.getPrice())
+                .build()
+        ).orElse(null);
     }
 
 }

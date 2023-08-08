@@ -9,7 +9,7 @@ import java.util.List;
 
 @Service
 public interface OrderService {
-    Order saveOrder(OrderRequest orderRequest);
+    OrderResponse saveOrder(OrderRequest orderRequest);
 
     List<OrderResponse> getOrders();
 

@@ -18,8 +18,8 @@ public class OrderServiceImplementation implements OrderService {
     private final OrderRepository orderRepository;
 
     @Override
-    public Order saveOrder(OrderRequest orderRequest) {
-        return orderRepository.save(Order.builder()
+    public OrderResponse saveOrder(OrderRequest orderRequest) {
+        Order order = orderRepository.save(Order.builder()
                 .orderLineItemsList(
                         orderRequest.getOrderLineItemsDtos()
                                 .stream()
@@ -31,6 +31,12 @@ public class OrderServiceImplementation implements OrderService {
                                                 .price(orderLineItemsDto.getPrice())
                                                 .build()).toList())
                 .build());
+
+        return OrderResponse.builder()
+                .Id(order.getId())
+                .orderNumber(order.getOrderNumber())
+                .orderLineItemsList(order.getOrderLineItemsList())
+                .build();
     }
 
     @Override
