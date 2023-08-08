@@ -11,6 +11,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class OrderLineItems {
 
     @Id
