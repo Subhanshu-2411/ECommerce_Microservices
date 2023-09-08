@@ -29,6 +29,12 @@ public class InventoryController {
         return new ResponseEntity<>(inventoryService.getInventory(id), HttpStatus.OK);
     }
 
+    @GetMapping("/skuCode/get/{skuCode}")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<InventoryResponse> getInventoryBySkuCode(@PathVariable("skuCode") String skuCode) {
+        return new ResponseEntity<>(inventoryService.getInventoryBySkuCode(skuCode), HttpStatus.OK);
+    }
+
     @PostMapping("/save")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<InventoryResponse> saveInventory(@RequestBody InventoryRequest inventoryRequest) {

@@ -13,4 +13,6 @@ public interface InventoryService {
     InventoryResponse getInventory(String id);
 
     InventoryResponse saveInventory(InventoryRequest inventoryRequest);
+
+    InventoryResponse getInventoryBySkuCode(String skuCode);
 }
