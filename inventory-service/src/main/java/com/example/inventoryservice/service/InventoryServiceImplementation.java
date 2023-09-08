@@ -50,4 +50,15 @@ public class InventoryServiceImplementation implements InventoryService {
                 .quantity(inventory.getQuantity())
                 .build();
     }
+
+    @Override
+    public InventoryResponse getInventoryBySkuCode(String skuCode) {
+        Inventory inventory = inventoryRepository.findAll().stream().filter(object -> object.getSkuCode().equals(skuCode)).findFirst().get();
+
+        return InventoryResponse.builder()
+                .id(inventory.getId())
+                .skuCode(inventory.getSkuCode())
+                .quantity(inventory.getQuantity())
+                .build();
+    }
 }
